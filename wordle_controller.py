@@ -47,11 +47,12 @@ class WordleController:
 
     def start_game(self):
         player_guess = ""
-        while self.game.guess_count < self.game.max_guesses and player_guess is not self.game.word:
+        won = False
+        while self.game.guess_count < self.game.max_guesses and player_guess is not self.game.word and not won:
 
             print(build_wordle_string(self.game))
-            #print("-------------------------------")
-            #print("the word is: " + self.game.word)
+            print("-------------------------------")
+            print("the word is: " + self.game.word)
             print("Guesses remaining: " + str(self.game.max_guesses - self.game.guess_count))
 
             player_guess = input(self.GUESS_STRING)
@@ -61,7 +62,9 @@ class WordleController:
 
             self.game.guess(player_guess)
 
-        if player_guess is self.game.word:
-            print("\n\n\nYou got it!!!\n\"" + self.game.word + "\" was the word")
-        else:
+            if player_guess == self.game.word:
+                print("\n\n\nYou got it!!!\n\"" + self.game.word + "\" was the word")
+                won = True
+
+        if not won:
             print("\n\n\nYou lose\nThe word was \n\"" + self.game.word + "\"")
