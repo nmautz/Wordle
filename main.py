@@ -1,5 +1,5 @@
 import wordle_controller
+import wordlebot
 
-game = wordle_controller.WordleController()
-game.build_wordle_string()
+game = wordlebot.WordleBot()
 game.start_game()

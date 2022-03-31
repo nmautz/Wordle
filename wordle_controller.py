@@ -13,43 +13,43 @@ COLOR = {
 }
 
 
+def build_wordle_string(game):
+    word = game.word
+    prev_guesses = game.prev_guesses
+    wordle_string = ""
+
+    for i, guess in enumerate(prev_guesses):
+        # create one line
+        string = ""
+        for c, char in enumerate(guess):
+            added_char = False
+            is_in_word = False
+            for j, word_char in enumerate(word):
+                if not added_char:
+                    if char is word_char and c is j:
+                        string += (COLOR.get("GREEN") + char + COLOR.get("ENDC"))
+                        added_char = True
+                    elif char is word_char:
+                        is_in_word = True
+            if not added_char:
+                if is_in_word:
+                    string += (COLOR.get("YELLOW") + char + COLOR.get("ENDC"))
+                else:
+                    string += (COLOR.get("WHITE") + char + COLOR.get("ENDC"))
+        wordle_string += (string + "\n")
+    return wordle_string
+
 class WordleController:
 
     def __init__(self):
         self.game = wordle.WordleGame()
         self.GUESS_STRING = "Please enter a 5 letter word\n"
 
-    def build_wordle_string(self):
-        word = self.game.word
-        prev_guesses = self.game.prev_guesses
-        wordle_string = ""
-
-        for i, guess in enumerate(prev_guesses):
-            # print one line
-            string = ""
-            for c, char in enumerate(guess):
-                added_char = False
-                is_in_word = False
-                for j, word_char in enumerate(word):
-                    if not added_char:
-                        if char is word_char and c is j:
-                            string += (COLOR.get("GREEN") + char + COLOR.get("ENDC"))
-                            added_char = True
-                        elif char is word_char:
-                            is_in_word = True
-                if not added_char:
-                    if is_in_word:
-                        string += (COLOR.get("YELLOW") + char + COLOR.get("ENDC"))
-                    else:
-                        string += (COLOR.get("WHITE") + char + COLOR.get("ENDC"))
-            wordle_string += (string + "\n")
-        return wordle_string
-
     def start_game(self):
         player_guess = ""
         while self.game.guess_count < self.game.max_guesses and player_guess is not self.game.word:
 
-            print(self.build_wordle_string())
+            print(build_wordle_string(self.game))
             #print("-------------------------------")
             #print("the word is: " + self.game.word)
             print("Guesses remaining: " + str(self.game.max_guesses - self.game.guess_count))
