@@ -27,7 +27,7 @@ class WordleGame:
         self.guess_count = 0
         self.letters_in_word = []
         self.guessed_letters = []
-        self.guesses = []
+        self.prev_guesses = []
         self.revealed_word = ['_', '_', '_', '_', '_']
 
     def is_valid_guess(self, word):
@@ -38,7 +38,7 @@ class WordleGame:
     def guess(self, word):
         self.guess_count += 1
         self.add_letters_from_word(word)
-        self.guesses.append(word)
+        self.prev_guesses.append(word)
 
         if word is self.word:
             return True
@@ -46,12 +46,13 @@ class WordleGame:
             return False
 
     def add_letters_from_word(self, word):
-        for char in word:
+        for i, char in enumerate(word):
             for c, g_char in enumerate(self.word):
                 if char == g_char:
                     if char not in self.letters_in_word:
                         self.letters_in_word.append(char)
-                        self.revealed_word[c] = char
+                        if i is c:
+                            self.revealed_word[c] = char
 
 
             if char not in self.guessed_letters:
